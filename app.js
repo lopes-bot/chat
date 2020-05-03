@@ -15,6 +15,16 @@ app.set('view engine','html');
 
 app.use('/',(req,res)=>{
     res.render('index.html');
+});
+
+let messages=[];
+
+io.on('connection',Socket=>{
+    console.log(`Socket conectado: ${Socket.id}`);
+    Socket.on('sendMessage',data=>{
+        console.log('tag', data);
+        messages.push(data);
+    });
 })
 
 server.listen(3000);
