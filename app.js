@@ -19,11 +19,15 @@ app.use('/',(req,res)=>{
 
 let messages=[];
 
-io.on('connection',Socket=>{
-    console.log(`Socket conectado: ${Socket.id}`);
-    Socket.on('sendMessage',data=>{
+io.on('connection',socket=>{
+    console.log(`Socket conectado: ${socket.id}`);
+
+    socket.emit('previousMesseges', messages);
+
+    socket.on('sendMessage',data=>{
         console.log('tag', data);
         messages.push(data);
+        socket.broadcast.emit('receivedMessage', data);
     });
 })
 
